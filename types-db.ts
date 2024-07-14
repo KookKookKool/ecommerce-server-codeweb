@@ -79,9 +79,11 @@ export interface Product {
 
 export interface Order {
   id: string;
+  name: string;
+  value: string;
   isPaid : boolean;
   phone : string;
-  customerName: string, //
+  customerName: string, 
   orderItems : Product[];
   address : string;
   order_status : string;

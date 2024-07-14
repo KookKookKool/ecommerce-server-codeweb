@@ -23,7 +23,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { AlertModel } from "@/components/model/alert-model";
 
-interface OrderFromProps {
+interface OrderFormProps {
   initialData: Order;
 }
 
@@ -32,15 +32,20 @@ const formSchema = z.object({
   value: z.string().min(1),
 });
 
-export const OrderFrom = ({
+interface OrderFormValues {
+  name: string;
+  value: string;
+}
+
+export const OrderForm = ({
   initialData,
-}: OrderFromProps) => {
-  const defaultValues = {
+}: OrderFormProps) => {
+  const defaultValues: OrderFormValues = {
     name: initialData?.name || '',
     value: initialData?.value || '',
   };
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<OrderFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
   });
@@ -57,7 +62,7 @@ export const OrderFrom = ({
     : "Size created successfully";
   const action = initialData ? "Save Changes" : "Create Size";
 
-  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+  const onSubmit = async (data: OrderFormValues) => {
     try {
       setIsLoading(true);
 
