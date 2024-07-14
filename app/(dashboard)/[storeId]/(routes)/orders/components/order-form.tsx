@@ -35,9 +35,14 @@ const formSchema = z.object({
 export const OrderFrom = ({
   initialData,
 }: OrderFromProps) => {
+  const defaultValues = {
+    name: initialData?.name || '',
+    value: initialData?.value || '',
+  };
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData,
+    defaultValues: defaultValues,
   });
 
   const [isLoading, setIsLoading] = useState(false);
