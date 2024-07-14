@@ -4,7 +4,7 @@ import { Heading } from "@/components/heading";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
-import { Plus } from "lucide-react";
+import { DatabaseBackupIcon, Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { OrdersColumns, columns } from "./columns";
 import ApiList from "@/components/api-list";
