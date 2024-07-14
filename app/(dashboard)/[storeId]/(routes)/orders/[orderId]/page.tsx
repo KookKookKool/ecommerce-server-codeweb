@@ -1,7 +1,7 @@
 import { db } from "@/lib/firebase";
 import { Order } from "@/types-db";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { OrderFrom } from "../components/order-form";
+import { OrderForm } from "../components/order-form";
 
 const OrderPage = async ({
   params,
@@ -19,7 +19,7 @@ const OrderPage = async ({
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <OrderFrom initialData={order} />
+        <OrderForm initialData={order} />
       </div>
     </div>
   );
