@@ -27,11 +27,11 @@ export const POST = async (
     const { name, value } = body;
 
     if (!name) {
-      return new NextResponse("Size Name is missing", { status: 400 });
+      return new NextResponse("Package Name is missing", { status: 400 });
     }
 
     if (!value) {
-      return new NextResponse("Size Value is missing", { status: 400 });
+      return new NextResponse("Package Value is missing", { status: 400 });
     }
 
     if (!params.storeId) {

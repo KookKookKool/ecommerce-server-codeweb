@@ -25,11 +25,11 @@ export const PATCH = async (
     const { name, value } = body;
 
     if (!name) {
-      return new NextResponse("size Name is missing", { status: 400 });
+      return new NextResponse("Package Name is missing", { status: 400 });
     }
 
     if (!value) {
-      return new NextResponse("Size Value is missing", { status: 400 });
+      return new NextResponse("Package Value is missing", { status: 400 });
     }
 
     if (!params.storeId) {
@@ -60,7 +60,7 @@ export const PATCH = async (
         }
       );
     } else {
-      return new NextResponse("size not found", { status: 404 });
+      return new NextResponse("Package not found", { status: 404 });
     }
 
     const size = (
@@ -92,7 +92,7 @@ export const DELETE = async (
     }
 
     if (!params.sizeId) {
-      return new NextResponse("size Id is missing", { status: 400 });
+      return new NextResponse("Package Id is missing", { status: 400 });
     }
 
     const store = await getDoc(doc(db, "stores", params.storeId));
@@ -114,7 +114,7 @@ export const DELETE = async (
 
     await deleteDoc(sizeRef);
 
-    return NextResponse.json({ msg: "size deleted" });
+    return NextResponse.json({ msg: "Package deleted" });
   } catch (error) {
     console.log(`size_DELETE: ${error}`);
     return new NextResponse("Internal Server Error", { status: 500 });
