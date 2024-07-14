@@ -1,24 +1,20 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { format } from "date-fns";
+import { collection, doc, getDocs } from "firebase/firestore";
 import { SizesClient } from "./components/client";
 import { db } from "@/lib/firebase";
-import {  Size } from "@/types-db";
-import {  SizeColumns } from "./components/columns";
-
+import { Size } from "@/types-db";
+import { SizeColumns } from "./components/columns";
 
 const SizesPage = async ({ params }: { params: { storeId: string } }) => {
   const sizesData = (
     await getDocs(collection(doc(db, "stores", params.storeId), "sizes"))
   ).docs.map((doc) => doc.data()) as Size[];
 
-  const formattedSizes : SizeColumns[] = sizesData.map(item => ({
-      id : item.id,
-      name : item.name,
-      value : item.value,
-      createdAt : item.createdAt 
-      ? format(item.createdAt.toDate(), "MMM do, yyyy") 
-      : "",
-  }))
+  const formattedSizes: SizeColumns[] = sizesData.map((item) => ({
+    id: item.id,
+    name: item.name,
+    value: item.value,
+    createdAt: item.createdAt ? item.createdAt.toDate().toISOString() : "",
+  }));
 
   return (
     <div className="flex-col">

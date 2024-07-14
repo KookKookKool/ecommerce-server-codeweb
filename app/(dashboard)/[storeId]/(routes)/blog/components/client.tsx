@@ -10,33 +10,40 @@ import { BlogColumns, columns } from "./columns";
 import ApiList from "@/components/api-list";
 
 interface BlogClientProps {
-  data : BlogColumns[];
+  data: BlogColumns[];
 }
 
 export const BlogClient = ({ data }: BlogClientProps) => {
   const params = useParams();
   const router = useRouter();
 
+  // Sort data by createdAt in descending order (latest first)
+  const sortedData = [...data].sort((a, b) => {
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
+    return dateB - dateA;
+  });
+
   return (
-  <>
-    <div className="flex items-center justify-between">
-      <Heading
-        title={`blog (${data.length})`}
-        description="Manage blog for you store"
-      />
-      <Button onClick={() => router.push(`/${params.storeId}/blog/create`)}>
-        <Plus className="mr-2 h-4 w-4" />
-        Add New
-      </Button>
-    </div>
+    <>
+      <div className="flex items-center justify-between">
+        <Heading
+          title={`blog (${sortedData.length})`}
+          description="Manage blog for your store"
+        />
+        <Button onClick={() => router.push(`/${params.storeId}/blog/create`)}>
+          <Plus className="mr-2 h-4 w-4" />
+          Add New
+        </Button>
+      </div>
 
-    <Separator />
+      <Separator />
 
-    <DataTable searchKey="label" columns={columns} data={data} />
+      <DataTable searchKey="label" columns={columns} data={sortedData} />
 
-    <Heading title="API" description="API calls for blog" />
-    <Separator />
-    <ApiList entityName="blog" entityNameId="blogId" />
-  </>
+      <Heading title="API" description="API calls for blog" />
+      <Separator />
+      <ApiList entityName="blog" entityNameId="blogId" />
+    </>
   );
 };

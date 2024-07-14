@@ -10,33 +10,40 @@ import { BillboardColumns, columns } from "./columns";
 import ApiList from "@/components/api-list";
 
 interface BillBoardsClientProps {
-  data : BillboardColumns[];
+  data: BillboardColumns[];
 }
 
 export const BillBoardsClient = ({ data }: BillBoardsClientProps) => {
   const params = useParams();
   const router = useRouter();
 
+  // Sort data by createdAt in descending order (latest first)
+  const sortedData = [...data].sort((a, b) => {
+    const dateA = new Date(a.createdAt).getTime();
+    const dateB = new Date(b.createdAt).getTime();
+    return dateB - dateA;
+  });
+
   return (
-  <>
-    <div className="flex items-center justify-between">
-      <Heading
-        title={`Billboards (${data.length})`}
-        description="Manage billboards for you store"
-      />
-      <Button onClick={() => router.push(`/${params.storeId}/billboards/create`)}>
-        <Plus className="mr-2 h-4 w-4" />
-        Add New
-      </Button>
-    </div>
+    <>
+      <div className="flex items-center justify-between">
+        <Heading
+          title={`Billboards (${sortedData.length})`}
+          description="Manage billboards for your store"
+        />
+        <Button onClick={() => router.push(`/${params.storeId}/billboards/create`)}>
+          <Plus className="mr-2 h-4 w-4" />
+          Add New
+        </Button>
+      </div>
 
-    <Separator />
+      <Separator />
 
-    <DataTable searchKey="label" columns={columns} data={data} />
+      <DataTable searchKey="label" columns={columns} data={sortedData} />
 
-    <Heading title="API" description="API calls for billboards" />
-    <Separator />
-    <ApiList entityName="billboards" entityNameId="billboardId" />
-  </>
+      <Heading title="API" description="API calls for billboards" />
+      <Separator />
+      <ApiList entityName="billboards" entityNameId="billboardId" />
+    </>
   );
 };
