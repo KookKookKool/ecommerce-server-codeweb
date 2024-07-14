@@ -2,8 +2,9 @@ import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { format } from "date-fns";
 import { CategoryClient } from "./components/client";
 import { db } from "@/lib/firebase";
-import { Category } from "@/types-db";
-import { CategoryColumns } from "./components/columns";
+import {  Category } from "@/types-db";
+import {  CategoryColumns } from "./components/columns";
+
 
 const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
   const CategoriesData = (
@@ -17,8 +18,8 @@ const CategoriesPage = async ({ params }: { params: { storeId: string } }) => {
     createdAt: item.createdAt 
       ? format(item.createdAt.toDate(), "MMM do, yyyy") 
       : "",
-    imageUrl: item.imageUrl || '' // กำหนดค่าเริ่มต้นให้ imageUrl
-  }));
+    imageUrl: item.imageUrl || 'defaultImageUrl',
+}));
 
   return (
     <div className="flex-col">

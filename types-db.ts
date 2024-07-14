@@ -32,6 +32,7 @@ export interface Category {
   name: string;
   createdAt?: Timestamp;
   updatedAt?: Timestamp;
+  imageUrl?: string;
 }
 
 export interface Size {
