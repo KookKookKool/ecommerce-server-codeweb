@@ -8,6 +8,7 @@ import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { OrdersColumns, columns } from "./columns";
 import ApiList from "@/components/api-list";
+import { Timestamp } from "firebase/firestore";
 
 interface OrdersClientProps {
   data: OrdersColumns[];
@@ -17,8 +18,23 @@ export const OrdersClient = ({ data }: OrdersClientProps) => {
   const params = useParams();
   const router = useRouter();
 
-  // เรียงลำดับข้อมูลตาม createdAt โดยข้อมูลใหม่ล่าสุดอยู่ก่อน
-  const sortedData = [...data].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  // Function to convert Timestamp to Date
+  const timestampToDate = (timestamp?: Timestamp | any): Date => {
+    if (timestamp instanceof Timestamp) {
+      return timestamp.toDate();
+    } else if (timestamp && typeof timestamp.seconds === "number" && typeof timestamp.nanoseconds === "number") {
+      return new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+    } else {
+      return new Date(0); // Default date if timestamp is invalid
+    }
+  };
+
+  // Sort data by createdAt in descending order (latest first)
+  const sortedData = [...data].sort((a, b) => {
+    const dateA = timestampToDate(a.createdAt);
+    const dateB = timestampToDate(b.createdAt);
+    return dateA.getTime() - dateB.getTime();
+  });
 
   return (
     <>

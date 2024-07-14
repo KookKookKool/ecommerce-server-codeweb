@@ -17,7 +17,7 @@ export type OrdersColumns = {
   isPaid: boolean;
   createdAt: string;
   order_status : string;
-  customerName: string; // เพิ่ม field สำหรับชื่อของลูกค้า
+  customerName: string; 
 }
 
 export const columns: ColumnDef<OrdersColumns>[] = [
