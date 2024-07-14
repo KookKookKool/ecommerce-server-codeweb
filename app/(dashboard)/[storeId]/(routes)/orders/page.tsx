@@ -1,5 +1,4 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { format } from "date-fns";
+import { collection, doc, getDocs } from "firebase/firestore";
 import { OrdersClient } from "./components/client";
 import { db } from "@/lib/firebase";
 import { Order } from "@/types-db";
@@ -10,9 +9,9 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
     await getDocs(collection(doc(db, "stores", params.storeId), "orders"))
   ).docs.map((doc) => doc.data()) as Order[];
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'THB',
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "THB",
   });
 
   const formattedOrders: OrdersColumns[] = ordersData.map((item) => ({
@@ -31,10 +30,8 @@ const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
       }, 0)
     ),
     images: item.orderItems.map((item) => item.images[0].url),
-    createdAt: item.createdAt
-      ? format(item.createdAt.toDate(), "MMM do, yyyy")
-      : "",
-      customerName: item.customerName, //
+    createdAt: item.createdAt ? item.createdAt.toDate().toISOString() : "",
+    customerName: item.customerName,
   }));
 
   return (
