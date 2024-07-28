@@ -1,3 +1,4 @@
+// types-db.ts
 import { Timestamp } from "firebase/firestore/lite";
 
 export interface Store {

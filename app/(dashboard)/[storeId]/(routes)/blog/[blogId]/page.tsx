@@ -1,7 +1,8 @@
+// app\dashboard\[storeId]\(routes)\blog\page.tsx
 import { db } from "@/lib/firebase";
 import { Blog } from "@/types-db";
 import { doc, getDoc } from "firebase/firestore";
-import { BlogForm } from "../components/blog-form";
+import  BlogForm  from "../components/blog-form"; // ใช้ named import
 
 const BlogPage = async ({
   params,

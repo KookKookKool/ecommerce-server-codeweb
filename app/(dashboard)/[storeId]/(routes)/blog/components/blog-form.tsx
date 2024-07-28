@@ -25,7 +25,14 @@ import { AlertModel } from "@/components/model/alert-model";
 import ImageUpload from "@/components/blog-image-upload";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "@/lib/firebase";
-import { Textarea } from "@/components/ui/textarea";
+import dynamic from 'next/dynamic';
+import "react-quill/dist/quill.snow.css";
+
+// Load Quill dynamically to avoid SSR issues
+const QuillEditor = dynamic(() => import('react-quill'), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 interface BlogFormProps {
   initialData: Blog;
@@ -37,7 +44,7 @@ const formSchema = z.object({
   imageUrl: z.string().min(1),
 });
 
-export const BlogForm = ({ initialData }: BlogFormProps) => {
+const BlogForm = ({ initialData }: BlogFormProps) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData,
@@ -95,6 +102,27 @@ export const BlogForm = ({ initialData }: BlogFormProps) => {
     }
   };
 
+  const modules = {
+    toolbar: [
+      [{ 'font': [] }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['link', 'image'],
+      [{ 'align': [] }],
+      [{ 'color': [] }, { 'background': [] }],
+      ['clean']  // remove formatting button
+    ]
+  };
+  
+  const formats = [
+    'font', 'size', 'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet',
+    'link', 'image', 'align',
+    'color', 'background'
+  ];
+  
   return (
     <div>
       <AlertModel
@@ -161,17 +189,20 @@ export const BlogForm = ({ initialData }: BlogFormProps) => {
               )}
             />
 
-              <FormField
+            <FormField
               control={form.control}
               name="ContentLabel"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Content</FormLabel>
                   <FormControl>
-                    <Textarea
-                      disabled={isLoading}
+                    <QuillEditor
+                      value={field.value}
+                      onChange={field.onChange}
+                      theme="snow"
                       placeholder="Your Content"
-                      {...field}
+                      modules={modules}
+                      formats={formats}
                     />
                   </FormControl>
                   <FormMessage />
@@ -187,3 +218,5 @@ export const BlogForm = ({ initialData }: BlogFormProps) => {
     </div>
   );
 };
+
+export default BlogForm;

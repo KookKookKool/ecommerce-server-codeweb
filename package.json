@@ -35,6 +35,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.4",
     "react-hot-toast": "^2.4.1",
+    "react-quill": "^2.0.0",
+    "react-quill-image-uploader": "^0.1.1",
     "react-spinners": "^0.13.8",
     "recharts": "^2.12.7",
     "stripe": "^15.11.0",

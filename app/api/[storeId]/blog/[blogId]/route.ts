@@ -1,9 +1,11 @@
+// app\api\[storeId]\blog\[blogId]\route.ts
 import { db } from "@/lib/firebase";
 import { Blog } from "@/types-db";
 import { auth } from "@clerk/nextjs/server";
 import { deleteDoc, doc, getDoc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { NextResponse } from "next/server";
 
+// PATCH และ DELETE
 export const PATCH = async (req: Request, { params }: { params: { storeId: string, blogId: string } }) => {
   try {
     const { userId } = auth();
@@ -20,7 +22,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
     }
 
     if (!ContentLabel) {
-      return new NextResponse("blog Name is missing", { status: 400 });
+      return new NextResponse("blog Content is missing", { status: 400 });
     }
 
     if (!imageUrl) {
@@ -58,7 +60,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
         updatedAt: serverTimestamp(),
       });
 
-      return NextResponse.json({ label, imageUrl });
+      return NextResponse.json({ label, ContentLabel, imageUrl });
     } else {
       return new NextResponse("blog not found", { status: 404 });
     }
@@ -67,6 +69,7 @@ export const PATCH = async (req: Request, { params }: { params: { storeId: strin
     return new NextResponse(`Internal Server Error: ${error}`, { status: 500 });
   }
 };
+
 
 export const DELETE = async (req: Request, { params }: { params: { storeId: string, blogId: string } }) => {
   try {

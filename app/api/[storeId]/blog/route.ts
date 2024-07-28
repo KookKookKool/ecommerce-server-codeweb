@@ -1,3 +1,4 @@
+// /api/[storeId]/blog
 import { db } from "@/lib/firebase";
 import { Blog } from "@/types-db";
 import { auth } from "@clerk/nextjs/server";
@@ -5,6 +6,7 @@ import {  addDoc, collection, doc, getDoc, serverTimestamp, updateDoc, getDocs }
 import { NextResponse } from "next/server";
 
 
+// POST
 export const POST = async (req : Request, 
     {params} : {params : {storeId : string}}
 ) => {
@@ -23,7 +25,7 @@ export const POST = async (req : Request,
         }
 
         if (!ContentLabel) {
-            return new NextResponse("blog Name is missing", { status: 400 })
+            return new NextResponse("blog Content is missing", { status: 400 })
         }
 
         if (!imageUrl) {
@@ -69,6 +71,7 @@ export const POST = async (req : Request,
         return new NextResponse(`Internal Server Error: ${error}`, { status: 500 })
     }
 };
+
 
 export const GET = async (req : Request, 
     {params} : {params : {storeId : string}}
